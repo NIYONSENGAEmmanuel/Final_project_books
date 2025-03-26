@@ -5,7 +5,7 @@ import { Button, Label, TextInput, Select, Textarea, Spinner } from "flowbite-re
 const UploadBooks = () => {
   const { id } = useParams(); // Get book ID from URL
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     bookTitle: "",
     authorName: "",
@@ -17,22 +17,31 @@ const UploadBooks = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(""); // State to track errors
   const [isEditMode, setIsEditMode] = useState(false);
 
   useEffect(() => {
     if (id) {
       setIsEditMode(true);
-      fetch(`http://localhost:5000/book/${id}`)
-        .then((res) => res.json())
+      fetch(`https://backend-book-store-lykg.onrender.com/book/${id}`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Failed to fetch book details');
+          }
+          return res.json();
+        })
         .then((data) => setFormData({
           bookTitle: data.bookTitle,
           authorName: data.authorName,
           imageURL: data.imageURL,
           category: data.category,
           bookDescription: data.bookDescription,
-          bookPDFURL: data.bookPDFURL, // Ensure this matches the structure
+          bookPDFURL: data.bookPDFURL,
         }))
-        .catch((error) => console.error("Error fetching book details:", error));
+        .catch((error) => {
+          console.error("Error fetching book details:", error);
+          setErrorMessage('Error fetching book details. Please try again.');
+        });
     }
   }, [id]);
 
@@ -46,37 +55,38 @@ const UploadBooks = () => {
     e.preventDefault();
     setIsLoading(true);
     setSuccessMessage("");
-    
+    setErrorMessage(""); // Clear error message on new submission
+
     console.log("Form Data:", formData); // Add this line to inspect data
-  
+
     try {
       const response = await fetch(
-        id ? `http://localhost:5000/update-book/${id}` : "http://localhost:5000/upload-book",
+        id ? `https://backend-book-store-lykg.onrender.com/update-book/${id}` : "https://backend-book-store-lykg.onrender.com/upload-book",
         {
           method: id ? "PUT" : "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         }
       );
-      
-      if (response.ok) {
-        setSuccessMessage("Success! The book has been uploaded/updated.");
-        setFormData({ // Reset form data after successful submission
-          bookTitle: "",
-          authorName: "",
-          imageURL: "",
-          category: "",
-          bookDescription: "",
-          bookPDFURL: "",
-        });
-      } else {
-        alert("❌ Error processing request. Please try again.");
+
+      if (!response.ok) {
+        throw new Error('Failed to process the request');
       }
+
+      setSuccessMessage("Success! The book has been uploaded/updated.");
+      setFormData({ // Reset form data after successful submission
+        bookTitle: "",
+        authorName: "",
+        imageURL: "",
+        category: "",
+        bookDescription: "",
+        bookPDFURL: "",
+      });
     } catch (error) {
-      console.error(error);
-      alert("❌ Error processing request. Please try again.");
+      console.error("Error processing request:", error);
+      setErrorMessage("❌ Error processing request. Please try again.");
     }
-  
+
     setIsLoading(false);
   };
 
@@ -133,6 +143,7 @@ const UploadBooks = () => {
         </form>
 
         {successMessage && <p className="mt-4 text-center text-green-600 font-semibold">{successMessage}</p>}
+        {errorMessage && <p className="mt-4 text-center text-red-600 font-semibold">{errorMessage}</p>}
       </div>
     </div>
   );

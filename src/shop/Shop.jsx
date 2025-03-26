@@ -4,7 +4,7 @@ import { Card } from "flowbite-react";
 const Shop = () => {
   const[books,setBook] =useState([]);
   useEffect(()=>{
-    fetch("http://localhost:5000/all-books").then(res => res.json()).then(data => setBook(data))
+    fetch("https://backend-book-store-lykg.onrender.com/all-books").then(res => res.json()).then(data => setBook(data))
   },[])
   return (
     <div className='mt-28 px-4 lg:px-24'>

@@ -21,11 +21,11 @@ const BannerCard = () => {
   modules={[EffectCards]}
   className="mySwiper"
 >
-  <SwiperSlide></SwiperSlide>
-  <SwiperSlide></SwiperSlide>
-  <SwiperSlide></SwiperSlide>
-  <SwiperSlide></SwiperSlide>
-  <SwiperSlide ></SwiperSlide>
+  <SwiperSlide><img src='https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1737560637i/213870706.jpg' /></SwiperSlide>
+  <SwiperSlide><img src='https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1719009996i/213573983.jpg' /></SwiperSlide>
+  <SwiperSlide><img src='https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1718938514i/211003826.jpg' /></SwiperSlide>
+  <SwiperSlide><img src='https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1734721658i/214175147.jpg' /></SwiperSlide>
+  <SwiperSlide ><img src='https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1724122322i/216970872.jpg' /></SwiperSlide>
 
 </Swiper>
 

@@ -44,7 +44,7 @@ const EditBooks = () => {
     setSuccessMessage("");
 
     try {
-      const res = await fetch(`http://localhost:5000/update-book/${book._id}`, {
+      const res = await fetch(`https://backend-book-store-lykg.onrender.com/update-book/${book._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

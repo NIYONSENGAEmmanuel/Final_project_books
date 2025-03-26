@@ -5,7 +5,7 @@ const ManageBooks = () => {
   const [allBooks, setAllBooks] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/all-books")
+    fetch("https://backend-book-store-lykg.onrender.com/all-books")
       .then((res) => res.json())
       .then((data) => setAllBooks(data))
       .catch((error) => console.error("Error fetching books:", error));
